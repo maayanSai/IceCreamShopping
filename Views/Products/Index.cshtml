@@ -1,0 +1,51 @@
+﻿@model IEnumerable<IceCreamsShopping.Models.Products>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <style>
+        /* עיצוב התמונות */
+        .product img {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* עיצוב הכרטיסיות */
+        .product {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            text-align: center;
+            box-sizing: border-box;
+            width: calc(50% - 20px); /* 2 items in a row */
+            float: left; /* Make products float left to display 2 per row */
+        }
+
+        /* Clear the float after every two products */
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
+
+<div class="clearfix">
+    @foreach (var product in Model)
+    {
+        <div class="product">
+            <a href="@Url.Action("Index", "Flavors", new {name= product.Name, price=product.Price, image=product.ImageUrl, flavorsLimit = product.MaxFlavors, des=product.Description })" class="selected-products-link-button">
+                <img src="/@product.ImageUrl" width="100" height="100" />
+                <h2 style="font-size: 20px">@product.Name</h2>
+                <p>@product.Description</p>
+                <p>Price: @product.Price ₪</p>
+                <input type="hidden" name="productId" value="@product.Id" />
+            </a>
+        </div>
+    }
+</div>

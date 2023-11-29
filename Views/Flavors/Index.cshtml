@@ -1,0 +1,197 @@
+﻿@model IEnumerable<IceCreamsShopping.Models.Flavors>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <style>
+        /* סגנון לריבוע */
+        .square {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            box-sizing: border-box;
+            display: inline-block;
+            width: calc(33.33% - 20px);
+            float: left;
+            text-align: center;
+        }
+
+            /* סגנון לתמונה בריבוע */
+            .square img {
+                width: 75%;
+                height: auto;
+                display: block;
+                margin: 0 auto;
+            }
+
+        /* סגנון לתווית הסימון */
+        .checkbox-label {
+            display: block;
+            font-size: 22px;
+            margin-top: 10px;
+        }
+
+        */
+        /* ריבועים ניקיים בצבע לבן */
+        .square-content {
+            background-color: white;
+            width: 100%;
+            height: 250px;
+        }
+
+        .selected {
+            border-color: red;
+        }
+
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* סגנון לשורה */
+        .row {
+            clear: both;
+            width: 100%;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card" style="width: 100%; height: 400px; border: 1px solid #ccc; padding: 10px; box-sizing: border-box; margin-bottom: 20px;">
+        <img src="/@Context.Request.Query["image"]" alt="Product Image" style="max-width: 100%; max-height: 75%; display: block;">
+        <h2 style="text-align: right; font-size: 30px">@Context.Request.Query["name"]</h2>
+        <p style="text-align: right;">@Context.Request.Query["des"]</p>
+        <p style="text-align: right;">@Context.Request.Query["price"]</p>
+    </div>
+
+
+    <hr>
+
+    <div style="text-align: right;">
+        <h1>:בחירת טעמים</h1>
+        <p style="font-size:20px">:@Context.Request.Query["flavorsLimit"]צריך לבחור לפחות 1, ולא יותר מ</p>
+
+        <div id="selectedFlavorNamesDisplay"></div>
+    </div>
+
+    <div id="flavorLimitMessage" style="color: red; text-align: right; font-size: 25px "></div>
+
+
+
+
+    <div class="clearfix">
+        <div class="row">
+            @foreach (var flavor in Model)
+            {
+                <div class="square flavor" data-size="@flavor.Name">
+                    <div class="square-content">
+                        <img src="/@flavor.ImageUrl" />
+                        <label class="checkbox-label">
+                            @flavor.Name
+                            <input type="checkbox" name="selectedFlavors" value="@flavor.Id" data-flavor-id="@flavor.Id" data-flavor-name="@flavor.Name" />
+                        </label>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+    <div id="flavorSelectionMessage" style="color: red;  text-align: right;"></div>
+
+    <div style="display: flex; justify-content: flex-end;">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <a href="@Url.Action("Index", "OrderItem", new { name = @Context.Request.Query["name"], price = @Context.Request.Query["price"], image = @Context.Request.Query["image"] })" class="button" id="paymentButton" disabled onclick="checkAndProceed()">
+                        <span style="display: block; text-align: right;"> ₪ סה"כ: @Context.Request.Query["price"]  </span>
+                        <span style="display: block; text-align: center;">לתשלום</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    var selectedFlavors = {};
+    var selectedFlavorNames = [];
+    var MaxFlavors = @Context.Request.Query["flavorsLimit"];
+
+    // Function to handle checkbox changes
+    function handleCheckboxChange(checkbox) {
+        const flavorId = checkbox.dataset.flavorId;
+        const flavorName = checkbox.dataset.flavorName; // Assuming you have a data attribute for flavor names
+
+        if (checkbox.checked) {
+            // Checkbox is selected, add it to the selectedFlavors object if the limit is not reached
+            if (Object.keys(selectedFlavors).length < MaxFlavors) {
+                selectedFlavors[flavorId] = true;
+                selectedFlavorNames.push(flavorName); // Add the name to the list
+            } else {
+                // If the limit is reached, uncheck the checkbox
+                checkbox.checked = false;
+                alert("ניתן לבחור עד " + MaxFlavors + " טעמים");
+              //  document.getElementById("flavorLimitMessage").textContent = "ניתן לבחור עד " + MaxFlavors + " טעמים";
+            }
+        } else {
+            // Checkbox is deselected, remove it from the selectedFlavors object
+            delete selectedFlavors[flavorId];
+            // Remove the name from the list
+            const nameIndex = selectedFlavorNames.indexOf(flavorName);
+            if (nameIndex !== -1) {
+                selectedFlavorNames.splice(nameIndex, 1);
+            }
+            // Clear the flavor limit message
+            document.getElementById("flavorLimitMessage").textContent = "";
+        }
+
+        // Update the content of the selectedFlavorNamesDisplay element
+        const selectedFlavorNamesDisplay = document.getElementById("selectedFlavorNamesDisplay");
+        selectedFlavorNamesDisplay.textContent = "טעמים שנבחרו: " + selectedFlavorNames.join(', ');
+
+        var selectedFlavorNamesDisplayValue = selectedFlavorNames;
+        localStorage.setItem('selectedFlavorNamesDisplayValue', selectedFlavorNamesDisplayValue);
+    }
+
+    // Add event listeners to all checkboxes with the name "selectedFlavors"
+    const checkboxes = document.querySelectorAll('input[name="selectedFlavors"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            handleCheckboxChange(checkbox);
+        });
+    });
+
+    // Function to check and proceed
+    function checkAndProceed() {
+        const paymentButton = document.getElementById("paymentButton");
+        if (Object.keys(selectedFlavors).length > 0) {
+            // At least one checkbox is selected, proceed to the "orderItem" page
+            window.location.href = paymentButton.getAttribute("href");
+        } else {
+            // No checkboxes selected, show a message and prevent navigation
+          //  const flavorSelectionMessage = document.getElementById("flavorSelectionMessage");
+            //flavorSelectionMessage.textContent = "חייב לבחור לפחות טעם אחד";
+            //flavorSelectionMessage.style.color = "red";
+            alert("חייב לבחור לפחות טעם אחד");
+        }
+    }
+
+    // Prevent the default behavior of the Payment Button
+    const paymentButton = document.getElementById("paymentButton");
+    paymentButton.addEventListener("click", function (event) {
+        if (Object.keys(selectedFlavors).length === 0) {
+            event.preventDefault(); // Prevent the default behavior (navigation)
+        }
+    });
+
+
+</script>

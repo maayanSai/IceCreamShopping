@@ -1,0 +1,53 @@
+﻿@model IEnumerable<IceCreamsShopping.Models.Products>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Product management</h1>
+
+<p>
+    <a asp-action="Create">Creat a new product</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th class="center-text">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th class="center-text">
+                @Html.DisplayNameFor(model => model.Price)
+            </th >
+            <th class="center-text">
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th class="center-text">
+                Image
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td class="center-text">
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+                <td class="center-text">
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+                <td class="center-text">
+                @Html.DisplayFor(modelItem => item.Description)
+            </td class="center-text">
+            <td>
+                <img src="/@item.ImageUrl" width="200" height="100" />
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

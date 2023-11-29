@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ManagerPage</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        button {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Manager</h1>
+    <p>To manage the store select:</p>
+
+    <a href="@Url.Action("Index", "ProductsManager")"><button type="button" id="productButton">Products</button></a>
+    <a href="@Url.Action("Index", "FlavorsManager")"><button type="button" id="flavorsButton">Flavours</button></a>
+    <a href="@Url.Action("Index", "flavours")"><button type="button" id="shoppingHistoryButton">Shopping History</button></a>
+    <a class="nav-item nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
+
+
+</body>
+</html>
+
+
+
+
+
