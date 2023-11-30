@@ -111,7 +111,7 @@
         <div class="card">
             <div class="card-body">
                 <div>
-                    <a href="@Url.Action("Index", "OrderItem", new { name = @Context.Request.Query["name"], price = @Context.Request.Query["price"], image = @Context.Request.Query["image"] })" class="button" id="paymentButton" disabled onclick="checkAndProceed()">
+                    <a href="@Url.Action("Index", "Orders", new { name = @Context.Request.Query["name"], price = @Context.Request.Query["price"], image = @Context.Request.Query["image"] })" class="button" id="paymentButton" disabled onclick="checkAndProceed()">
                         <span style="display: block; text-align: right;"> ₪ סה"כ: @Context.Request.Query["price"]  </span>
                         <span style="display: block; text-align: center;">לתשלום</span>
                     </a>

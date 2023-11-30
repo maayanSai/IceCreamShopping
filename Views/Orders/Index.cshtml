@@ -2,12 +2,9 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@{   
+@{
     string priceString = Context.Request.Query["price"];
-    string cleanedPriceString = new string(priceString.Where(char.IsDigit).ToArray());
-    int priceInt = int.Parse(cleanedPriceString) + 3000;
-    string tmp = priceInt.ToString();
-    string totalPrice = tmp.Insert(tmp.Length - 2, "."); // הוספת הנקודה העשרונית
+    int totalPrice = int.Parse(priceString) + 30;
 }
 <!DOCTYPE html>
 <html>
@@ -86,7 +83,6 @@
             border: none; /* הוסף את זה כדי להסיר את המסגרת */
             border-radius: 0; /* גג זה כדי להסיר גבולות עגולים, ניתן לשנות לכל ערך שתרצה */
             background-color: #f5f5f5;
-
         }
 
 
@@ -111,11 +107,11 @@
 
         /* תשנה את העיצוב של ה-inputs כך שהם יימצו מימין לשם */
 
-        input{
+        input {
             direction: rtl;
             width: 100%;
             padding: 5px;
-            margin: 10px ;
+            margin: 10px;
             border: 1px solid #ccc;
             border-radius: 3px;
         }
@@ -180,28 +176,104 @@
             cursor: pointer;
             display: block; /* Change to block to make it take the full width */
             margin: 30px auto 0; /* Add 30px top margin, center horizontally */
-
         }
 
             button:hover {
                 background-color: #fff;
             }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* עיצוב כרטיס הזמנה */
+        .card {
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 20px;
+            padding: 10px;
+            text-align: center;
+            margin: 0 auto; /* הוסף את זה כדי למרכז את הכרטיס באופן אופטימלי */
+            border: none; /* הוסף את זה כדי להסיר את המסגרת */
+            border-radius: 0; /* גג זה כדי להסיר גבולות עגולים, ניתן לשנות לכל ערך שתרצה */
+            background-color: #f5f5f5;
+        }
+
+
+
+        img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+
+        p {
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        button {
+            background-color: #D9B9A0;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: block; /* Change to block to make it take the full width */
+            margin: 30px auto 0; /* Add 30px top margin, center horizontally */
+        }
+
+            button:hover {
+                background-color: #fff;
+            }
 
     </style>
 
 </head>
 
 <body>
+        <h2 style="text-align:right; font-size: 50px;">:סיכום הזמנה</h2>
 
+        <div class="card">
+            <img src="/@Context.Request.Query["image"]">
+            <h2>@Context.Request.Query["name"]</h2>
+            <p> :בחירת טעמים</p>
+            <p1 style="margin=5px;" id="selectedFlavorNamesDisplay">
+                @foreach (var flavor in Context.Request.Query["flavors"])
+                {
+                    <p>@flavor</p>
+                }
+            </p1>
+
+            <span data-bind="text: getValue()" style="background:#fff"> ₪ סה" כ: @Context.Request.Query["price"] </span>
+
+        </div>
+    </body>
+</html>
+
+<script>
+    // קרא את הערך מה-Local Storage
+    var selectedFlavorNamesDisplayValue = localStorage.getItem('selectedFlavorNamesDisplayValue');
+
+    // הצג את הערך בדף
+    document.getElementById("selectedFlavorNamesDisplay").textContent = selectedFlavorNamesDisplayValue;
+</script>
+<body>
     <p>תאריך:</p>
-
 
     <div class="order-container">
         <div class="card">
             <h2> תשלום</h2>
             <label class="shipping-label">
-                <span>₪@Context.Request.Query["price"]</span>
+                <span>₪@priceString.00</span>
                 <span class="shipping-text">:סכום ביניים</span>
             </label>
             <label class="shipping-label">
@@ -209,14 +281,14 @@
                 <span class="shipping-text">:משלוח</span>
             </label>
             <label class="shipping-label">
-                <span>₪@totalPrice</span>
+                <span>₪@totalPrice.00</span>
                 <span style="font-size: 20px;" class="shipping-text">:סה"כ</span>
             </label>
 
             <hr>
 
             <div>
-                <label for="terms-checkbox" >
+                <label for="terms-checkbox">
                     <span>.קראתי ואני מסכים/מה לתנאי השימוש</span>
                     <input class="label-text" type="checkbox" id="terms-checkbox" required>
                 </label>
@@ -227,61 +299,14 @@
             </div>
 
             <hr>
-            <div class="section">
-                <script src="https://www.paypal.com/sdk/js?client-id=AVQtxsHXxTwurvaNsMWSzDyCl5dy2AfGjz_MJqG7Y9mWUdIl4ESF38LXo32bwRQ3JVysTqoacvUMLH8Z"></script>
-                <div id="paypal-button-container" style="max-width: 1000px;"></div>
-                <script>
-                    paypal.Buttons({
-                        style: {
-                            disableMaxWidth: true
-                        },
-                        createOrder: function (data, actions) {
-                            // Set up the transaction
-                            var totalPrice = @totalPrice;
-                            console.log(totalPrice);
-                            return actions.order.create({
-                                purchase_units: [{
-                                    amount: {
-                                        value: totalPrice
-                                    }
-                                }]
-                            });
-                        },
-                        onApprove: function (data, actions) {
-                            // Capture the funds from the transaction
-                            return actions.order.capture().then(function (details) {
-                                // Call your server to save the transaction
-                                return fetch('/your-server-side-code', {
-                                    method: 'post',
-                                    headers: {
-                                        'content-type': 'application/json'
-                                    },
-                                    body: JSON.stringify({
-                                        orderID: data.orderID
-                                    })
-                                }).then(function (response) {
-                                    // Check the response from the server
-                                    if (response.ok) {
-                                        // Display a success message to the customer
-                                        alert('ההזמנה בוצעה בהצלחה! תודה על הרכישה.');
-                                    } else {
-                                        // Display an error message if something went wrong
-                                        alert('אירעה שגיאה בעיבוד ההזמנה. נא לנסות שוב מאוחר יותר.');
-                                    }
-                                }).catch(function (error) {
-                                    // Display an error message if fetch fails
-                                    console.error('שגיאה בביצוע בקשה לשרת:', error);
-                                    alert('אירעה שגיאה בעיבוד ההזמנה. נא לנסות שוב מאוחר יותר.');
-                                });
-                            });
-                        }
-                    }).render('#paypal-button-container');
-                </script>
+
+            <div>
+                <a href='@Url.Action("Pay", "Orders", new { price = @totalPrice })' class="button" id="submit-button" onclick="saveDataToLocalStorage()">
+                    שליחת הזמנה
+                </a>
             </div>
-        </div>
 
 
-        <div class="delivery-section">
             <div class="card">
                 <h2>שיטת משלוח</h2>
                 <label class="shipping-label">
@@ -295,43 +320,46 @@
 
 
         <div class="payment-section">
-         <div class="billing-section">
-            <div class="card">
-                <h2>פרטי חיוב</h2>
-                <form>
-                    <div class="right-aligned-label">
-                        <label for="last-name">שם משפחה</label>
+            <div class="billing-section">
+                <div class="card">
+                    <h2>פרטי חיוב</h2>
+                    <form>
+                        <div class="right-aligned-label">
+                            <label for="last-name">שם משפחה</label>
                             <input type="text" id="last-name" name="last-name" style="direction: rtl;" required>
-                    </div>
+                        </div>
 
-                    <div class="right-aligned-label">
+                        <div class="right-aligned-label">
                             <label for="first-name">שם פרטי</label>
-                        <input type="text" id="first-name" name="first-name" style="direction: rtl;" required>
-                    </div>
+                            <input type="text" id="first-name" name="first-name" style="direction: rtl;" required>
+                        </div>
 
-                    <div class="right-aligned-label">
-                        <label for="phone">טלפון</label>
-                        <input type="text" id="phone" name="phone" style="direction: rtl;" required>
-                    </div>
+                        <div class="right-aligned-label">
+                            <label for="phone">טלפון</label>
+                            <input type="text" id="phone" name="phone" style="direction: rtl;" required>
+                        </div>
 
-                    <div class="right-aligned-label">
-                         <label for="phone">אימייל</label>
-                         <input type="text" id="email" name="email" style="direction: rtl;" required>
-                    </div>
+                        <div class="right-aligned-label">
+                            <label for="phone">אימייל</label>
+                            <input type="text" id="email" name="email" style="direction: rtl;" required>
+                        </div>
 
-                    <div class="right-aligned-label">
-                        <label for="street">רחוב</label>
+                        <div class="right-aligned-label">
+                            <label for="street">רחוב</label>
                             <input type="email" id="street" name="street" style="direction: rtl;" required>
-                    </div>
+                        </div>
 
-                    <div class="right-aligned-label">
-                        <label for="city">עיר</label>
+                        <div class="right-aligned-label">
+                            <label for="city">עיר</label>
                             <input type="text" id="city" name="city" style="direction: rtl;" required>
-                    </div>
-                </form>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>   
- </div>
+        </div>
 
 </body>
 </html>
@@ -339,8 +367,7 @@
 
 <script>
 
-
-   function FillFields(event) {
+    function FillFields(event) {
         var firstName = document.getElementById("first-name").value;
         var lastName = document.getElementById("last-name").value;
         var phone = document.getElementById("phone").value;
@@ -372,19 +399,28 @@
         }
     }
 
-}
+    }
 
 </script>
 
+<script>
+    // שמירת הנתונים ב־Local Storage ברגע שהטופס מוגש
+    function saveDataToLocalStorage() {
+        var lastName = document.getElementById('last-name').value;
+        var firstName = document.getElementById('first-name').value;
+        var phone = document.getElementById('phone').value;
+        var email = document.getElementById('email').value;
+        var city = document.getElementById('city').value;
+        var street = document.getElementById('street').value;
+        var price = @totalPrice;
+        console.log(street);
 
-
-
-
-
-
-
-
-
-
-
-
+        localStorage.setItem('lastName', lastName);
+        localStorage.setItem('firstName', firstName);
+        localStorage.setItem('phone', phone);
+        localStorage.setItem('email', email);
+        localStorage.setItem('city', city);
+        localStorage.setItem('street', street);
+        localStorage.setItem('price', price);
+    }
+</script>

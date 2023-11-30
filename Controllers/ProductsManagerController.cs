@@ -25,9 +25,9 @@ namespace IceCreamsShopping.Controllers
         // GET: ProductsManager
         public async Task<IActionResult> Index()
         {
-              return _context.Products != null ? 
-                          View(await _context.Products.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Products'  is null.");
+            return _context.Products != null ?
+                        View(await _context.Products.ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.Products'  is null.");
         }
 
         // GET: ProductsManager/Details/5
@@ -58,26 +58,26 @@ namespace IceCreamsShopping.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,ImageUrl,MaxFlavors")] Products product)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,ImageUrl,MaxFlavors")] Product product)
         {
 
             if (ModelState.IsValid)
             {
-                //Call the CheckImage action to check if the image contains ice cream.
-                var containsIceCream = await CheckImage(product.ImageUrl);
+                ////Call the CheckImage action to check if the image contains ice cream.
+                //var containsIceCream = await CheckImage(product.ImageUrl);
 
-                if (containsIceCream)
-                {
+                //if (containsIceCream)
+                //{
                     // If the image contains ice cream, proceed to save the product.
                     _context.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    // Handle the case where the image doesn't contain ice cream.
-                    ModelState.AddModelError("ImageUrl", "The image does not contain ice cream.");
-                }
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                //}
+                //else
+                //{
+                //    // Handle the case where the image doesn't contain ice cream.
+                //    ModelState.AddModelError("ImageUrl", "The image does not contain ice cream.");
+                //}
             }
             return View(product);
         }
@@ -103,7 +103,7 @@ namespace IceCreamsShopping.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Price,ImageUrl,MaxFlavors")] Products products)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Price,ImageUrl,MaxFlavors")] Product products)
         {
             if (id != products.Id)
             {
@@ -165,21 +165,21 @@ namespace IceCreamsShopping.Controllers
             {
                 _context.Products.Remove(products);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProductsExists(int id)
         {
-          return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
-        private async Task<bool> CheckImage(string imageUrl)
-        {
-            var _apiServices = new ApiServices("acc_85435d24acba976");
-            var answer = await _apiServices.CallServiceApi<bool>($"http://localhost:5103/api/imagga?imageUrl={Uri.EscapeDataString(imageUrl)}");
-            return answer;
-        }
+        //private async Task<bool> CheckImage(string imageUrl)
+        //{
+        //    var _apiServices = new ApiServices("acc_85435d24acba976");
+        //    var answer = await _apiServices.CallServiceApi<bool>($"http://localhost:5103/api/imagga?imageUrl={Uri.EscapeDataString(imageUrl)}");
+        //    return answer;
+        //}
     }
 }

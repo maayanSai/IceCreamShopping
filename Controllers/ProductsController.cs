@@ -22,9 +22,9 @@ namespace IceCreamsShopping.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-              return _context.Products != null ? 
-                          View(await _context.Products.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Products'  is null.");
+            return _context.Products != null ?
+                        View(await _context.Products.ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.Products'  is null.");
         }
 
         // GET: Products/Details/5
@@ -56,7 +56,7 @@ namespace IceCreamsShopping.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,ImageUrl,MaxFlavors")] Products products)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,ImageUrl,MaxFlavors")] Product products)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace IceCreamsShopping.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Price,ImageUrl,MaxFlavors")] Products products)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Price,ImageUrl,MaxFlavors")] Product products)
         {
             if (id != products.Id)
             {
@@ -150,14 +150,14 @@ namespace IceCreamsShopping.Controllers
             {
                 _context.Products.Remove(products);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProductsExists(int id)
         {
-          return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

@@ -82,7 +82,7 @@
     </div>
 
 
-    <button class="button" onclick="location.href='@Url.Action("Index", "Orders", new { price = @Context.Request.Query["price"] })'">מעבר לתשלום</button>
+    <button class="button" onclick="location.href='@Url.Action("Index", "Orders", new { price = @Context.Request.Query["price"], nameProduct=@Context.Request.Query["name"], flavors=@Context.Request.Query["flavors"] })'">מעבר לתשלום</button>
 
 </body>
 </html>
