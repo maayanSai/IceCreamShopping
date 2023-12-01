@@ -208,6 +208,10 @@
         p {
             font-size: 1rem;
             margin: 0;
+            text-align: right;
+            display: flex;
+            justify-content: flex-end;
+
         }
 
         button {
@@ -234,7 +238,8 @@
 
 <body>
    <p>תאריך:</p>
-   <p1>סיכום הזמנה:</p1>
+   <p1>:סיכום הזמנה</p1>
+
    <div class="card">
             <img src="/@Context.Request.Query["image"]">
             <h2>@Context.Request.Query["name"]</h2>
@@ -247,6 +252,7 @@
             </p1>
             <span data-bind="text: getValue()" style="background:#fff"> ₪ סה" כ: @Context.Request.Query["price"].00 </span>
     </div>
+
     <div class="card">
             <label class="shipping-label">
                 <span>₪@priceString.00</span>
