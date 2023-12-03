@@ -111,7 +111,7 @@
         <div class="card">
             <div class="card-body">
                 <div>
-                    <a href="@Url.Action("Index", "Orders", new { name = @Context.Request.Query["name"], price = @Context.Request.Query["price"], image = @Context.Request.Query["image"] })" class="button" id="paymentButton" disabled onclick="checkAndProceed()">
+                    <a href="@Url.Action("Create", "Orders", new { name = @Context.Request.Query["name"], price = @Context.Request.Query["price"], image = @Context.Request.Query["image"] })" class="button" id="paymentButton" disabled onclick="checkAndProceed()">
                         <span style="display: block; text-align: right;"> ₪ סה"כ: @Context.Request.Query["price"]  </span>
                         <span style="display: block; text-align: center;">לתשלום</span>
                     </a>
@@ -174,13 +174,8 @@
     function checkAndProceed() {
         const paymentButton = document.getElementById("paymentButton");
         if (Object.keys(selectedFlavors).length > 0) {
-            // At least one checkbox is selected, proceed to the "orderItem" page
             window.location.href = paymentButton.getAttribute("href");
         } else {
-            // No checkboxes selected, show a message and prevent navigation
-          //  const flavorSelectionMessage = document.getElementById("flavorSelectionMessage");
-            //flavorSelectionMessage.textContent = "חייב לבחור לפחות טעם אחד";
-            //flavorSelectionMessage.style.color = "red";
             alert("חייב לבחור לפחות טעם אחד");
         }
     }

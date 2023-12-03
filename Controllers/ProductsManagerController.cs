@@ -63,23 +63,23 @@ namespace IceCreamsShopping.Controllers
 
             if (ModelState.IsValid)
             {
-                ////Call the CheckImage action to check if the image contains ice cream.
-                //var containsIceCream = await CheckImage(product.ImageUrl);
+                //Call the CheckImage action to check if the image contains ice cream.
+                var containsIceCream = await CheckImage(product.ImageUrl);
 
-                //if (containsIceCream)
-                //{
+                if (containsIceCream)
+                {
                     // If the image contains ice cream, proceed to save the product.
                     _context.Add(product);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
-                //}
-                //else
-                //{
-                //    // Handle the case where the image doesn't contain ice cream.
-                //    ModelState.AddModelError("ImageUrl", "The image does not contain ice cream.");
-                //}
+                }
+                else
+                {
+                    // Handle the case where the image doesn't contain ice cream.
+                    ModelState.AddModelError("ImageUrl", "The image does not contain ice cream.");
+                }
             }
-            return View(product);
+                return View(product);
         }
 
         // GET: ProductsManager/Edit/5
@@ -175,11 +175,11 @@ namespace IceCreamsShopping.Controllers
             return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
-        //private async Task<bool> CheckImage(string imageUrl)
-        //{
-        //    var _apiServices = new ApiServices("acc_85435d24acba976");
-        //    var answer = await _apiServices.CallServiceApi<bool>($"http://localhost:5103/api/imagga?imageUrl={Uri.EscapeDataString(imageUrl)}");
-        //    return answer;
-        //}
+        private async Task<bool> CheckImage(string imageUrl)
+        {
+            var _apiServices = new ApiServices("acc_85435d24acba976");
+            var answer = await _apiServices.CallServiceApi<bool>($"http://localhost:5103/api/imagga?imageUrl={Uri.EscapeDataString(imageUrl)}");
+            return answer;
+        }
     }
 }

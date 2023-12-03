@@ -6,8 +6,7 @@
 }
 <!DOCTYPE html>
 <head>
-    <meta charset="utf-8" />
-    <title>PayPal</title>
+
     <style>
 
         /* Reset some default styles */
@@ -64,24 +63,6 @@
             flex: 1;
             margin: 0 10px;
         }
-
-        /* Style the card elements */
-        .card {
-            flex: 1; /* הקצאת אותו גודל לכל כרטיס */
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            text-align: left;
-            margin: 20px;
-            padding: 10px;
-            text-align: center;
-            margin: 0 auto; /* הוסף את זה כדי למרכז את הכרטיס באופן אופטימלי */
-            border: none; /* הוסף את זה כדי להסיר את המסגרת */
-            border-radius: 0; /* גג זה כדי להסיר גבולות עגולים, ניתן לשנות לכל ערך שתרצה */
-            background-color: #f5f5f5;
-        }
-
 
         /* Style the form elements */
         form {
@@ -149,9 +130,6 @@
             order: 1; /* שינוי סדר ההצגה לצד ימין */
         }
 
-      .card {
-            padding-bottom: 20px; /* הוספת מרווח בין ה־labelים */
-        }
 
         .comments-label {
             display: block;
@@ -182,18 +160,25 @@
             box-sizing: border-box;
         }
 
-       .card {
-            width: 300px;
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .card {
+            width: calc(33.33% - 20px);
             border: 1px solid #ccc;
             border-radius: 5px;
-            margin: 20px;
-            padding: 10px;
+            margin: 10px; /* מרווח קטן סביב כל כרטיס */
+            padding: 20px;
             text-align: center;
-            margin: 0 auto; /* הוסף את זה כדי למרכז את הכרטיס באופן אופטימלי */
-            border: none; /* הוסף את זה כדי להסיר את המסגרת */
-            border-radius: 0; /* גג זה כדי להסיר גבולות עגולים, ניתן לשנות לכל ערך שתרצה */
+            border: none;
+            border-radius: 0;
             background-color: #f5f5f5;
+            border-bottom: 1px solid #000;
         }
+
 
         img {
             max-width: 100%;
@@ -232,28 +217,27 @@
             display: none;
 </style>
 </head>
-
-
-
-
+<html>
 <body>
-   <p>תאריך:</p>
-   <p1>:סיכום הזמנה</p1>
-
-   <div class="card">
-            <img src="/@Context.Request.Query["image"]">
-            <h2>@Context.Request.Query["name"]</h2>
-            <p> :בחירת טעמים</p>
-            <p1 style="margin=5px;" id="selectedFlavorNamesDisplay">
-                @foreach (var flavor in Context.Request.Query["flavors"])
-                {
-                    <p>@flavor</p>
-                }
-            </p1>
-            <span data-bind="text: getValue()" style="background:#fff"> ₪ סה" כ: @Context.Request.Query["price"].00 </span>
+    <div class="card" style="float: right; ">
+        <h2>:סיכום הזמנה</h2>
+        <img src="/@Context.Request.Query["image"]"></img>
+        <h2>@Context.Request.Query["name"]</h2>
+        <p> :בחירת טעמים</p>
+        <p1 style="margin=5px;" id="selectedFlavorNamesDisplay">
+            @foreach (var flavor in Context.Request.Query["flavors"])
+            {
+                <p>@flavor</p>
+            }
+        </p1>
+        <span data-bind="text: getValue()" style="background:#fff"> ₪ סה"כ: @priceString.00 </span>
     </div>
 
-    <div class="card">
+    <div style="clear: both;"></div>
+
+    <div class="cards-container">
+        <div class="card">
+            <h2>תשלום</h2>
             <label class="shipping-label">
                 <span>₪@priceString.00</span>
                 <span class="shipping-text">:סכום ביניים</span>
@@ -272,171 +256,163 @@
                 <input class="label-text" type="checkbox" id="terms-checkbox" required>
             </label>
             <label>אנחנו נשתמש בפרטים האישיים שלך כדי לעבד את ההזמנה, להציע לך תמיכה בתהליך באתר זה וכדי לבצע פעולות נוספות כפי שמפורט במדיניות פרטיות</label>
-     </div>
+            <hr>
+            <button id="submit-order-button">שליחת הזמנה</button>
 
-    <hr>
+            <div class="card">
+                <div id="paypal-button-container" style="display: none;"></div>
+                <script src="https://www.paypal.com/sdk/js?client-id=AVQtxsHXxTwurvaNsMWSzDyCl5dy2AfGjz_MJqG7Y9mWUdIl4ESF38LXo32bwRQ3JVysTqoacvUMLH8Z"></script>
+                <script>
+                    function displayPayPalButton() {
+                        paypal.Buttons({
+                            style: {
+                                disableMaxWidth: true
+                            },
+                            createOrder: function (data, actions) {
+                                var totalPrice = @totalPrice; 
+                                console.log(totalPrice);
+                                return actions.order.create({
+                                    purchase_units: [{
+                                        amount: {
+                                            value: totalPrice
+                                        }
+                                    }]
+                                });
+                            },
+                            onApprove: function (data, actions) {
+                                // Capture the funds from the transaction
+                                return actions.order.capture().then(function (details) {
+                                    // Call your server to save the transaction
+                                    return fetch('/your-server-side-code', {
+                                        method: 'post',
+                                        headers: {
+                                            'content-type': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            orderID: data.orderID
+                                        })
+                                    }).then(function (response) {
+                                        alert('ההזמנה בוצעה בהצלחה! תודה על הרכישה.');
+                                    }).catch(function (error) {
+                                        console.error('שגיאה בביצוע בקשה לשרת:', error);
+                                        alert('אירעה שגיאה בעיבוד ההזמנה. נא לנסות שוב מאוחר יותר.');
+                                    });
+                                });
+                            }
+                        }).render('#paypal-button-container')
+                    }
 
-    <div class="card">
-       <label class="shipping-label">
+                </script>
+            </div>
+        </div>
+
+
+        <div class="card">
+        <h2>שיטת משלוח</h2>
+        <label class="shipping-label">
             <span>₪30.00</span>
             <span class="shipping-text">משלוח עד הבית (25-45 דק')</span>
-       </label>
-       <label for="comments" class="comments-label">הערות להזמנה (מקסימום 200)</label>
-       <textarea id="comments" name="comments" rows="4" maxlength="200" style="direction: rtl;"></textarea>
-     </div>
-
-     <div class="card">
-           <h2>פרטי חיוב</h2>
-                <form>
-                    <div class="right-aligned-label">
-                        <label for="last-name">שם משפחה</label>
-                        <input type="text" id="last-name" name="last-name" style="direction: rtl;" required>
-                    </div>
-
-                    <div class="right-aligned-label">
-                        <label for="first-name">שם פרטי</label>
-                        <input type="text" id="first-name" name="first-name" style="direction: rtl;" required>
-                    </div>
-
-                    <div class="right-aligned-label">
-                        <label for="phone">טלפון</label>
-                        <input type="text" id="phone" name="phone" style="direction: rtl;" required>
-                    </div>
-
-                    <div class="right-aligned-label">
-                        <label for="phone">אימייל</label>
-                        <input type="text" id="email" name="email" style="direction: rtl;" required>
-                    </div>
-
-                    <div class="right-aligned-label">
-                        <label for="street">רחוב</label>
-                        <input type="email" id="street" name="street" style="direction: rtl;" required>
-                    </div>
-
-                    <div class="right-aligned-label">
-                        <label for="city">עיר</label>
-                        <input type="text" id="city" name="city" style="direction: rtl;" required>
-                    </div>
-@*                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                    </div>*@
-                </form>
+        </label>
+        <label for="comments" class="comments-label">הערות להזמנה (מקסימום 200)</label>
+        <textarea id="comments" name="comments" rows="4" maxlength="200" style="direction: rtl;"></textarea>
     </div>
-      <button id="submit-order-button">שליחת הזמנה</button>
 
-    <!-- תיבת PayPal - המקום שבו יופיע כפתור PayPal -->
-    <div id="paypal-button-container" style="display: none;"></div>
+        <div class="card">
+            <h2>פרטי חיוב</h2>
+            <form asp-action="CreateOrder">
 
-    <!-- קוד PayPal SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AVQtxsHXxTwurvaNsMWSzDyCl5dy2AfGjz_MJqG7Y9mWUdIl4ESF38LXo32bwRQ3JVysTqoacvUMLH8Z"></script>
-    <script>
-        function displayPayPalButton() {
-            paypal.Buttons({
-                style: {
-                    disableMaxWidth: true
-                },
-                createOrder: function (data, actions) {
-                    var totalPrice = 100; // חלק מהלוגיקה שלך לחישוב סכום הקניה
-                    console.log(totalPrice);
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: {
-                                value: totalPrice
-                            }
-                        }]
-                    });
-                },
-                onApprove: function (data, actions) {
-                    return actions.order.capture().then(function (details) {
-                        return fetch('/your-server-side-code', {
-                            method: 'post',
-                            headers: {
-                                'content-type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                orderID: data.orderID
-                            })
-                        }).then(function (response) {
-                            if (response.ok) {
-                                alert('ההזמנה בוצעה בהצלחה! תודה על הרכישה.');
-                            } else {
-                                alert('אירעה שגיאה בעיבוד ההזמנה. נא לנסות שוב מאוחר יותר.');
-                            }
-                        }).catch(function (error) {
-                            console.error('שגיאה בביצוע בקשה לשרת:', error);
-                            alert('אירעה שגיאה בעיבוד ההזמנה. נא לנסות שוב מאוחר יותר.');
-                        });
-                    });
-                }
-            }).render('#paypal-button-container');
-        }
+                <div class="right-aligned-label">
+                    <label for="first-name">שם פרטי</label>
+                    <input type="text" id="first-name" name="first-name" style="direction: rtl;" required>
+                </div>
 
-        document.getElementById("submit-order-button").addEventListener("click", function () {
-            document.getElementById("paypal-button-container").style.display = "block";
-            displayPayPalButton();
-        });
-    </script>
+                <div class="right-aligned-label">
+                    <label for="phone">טלפון</label>
+                    <input type="text" id="phone" name="phone" style="direction: rtl;" required>
+                </div>
 
+                <div class="right-aligned-label">
+                    <label for="phone">אימייל</label>
+                    <input type="text" id="email" name="email" style="direction: rtl;" required>
+                </div>
+
+                <div class="right-aligned-label">
+                    <label for="city">עיר</label>
+                    <input type="text" id="city" name="city" style="direction: rtl;" required>
+                </div>
+
+                <div class="right-aligned-label">
+                    <label for="street">רחוב</label>
+                    <input type="email" id="street" name="street" style="direction: rtl;" required>
+                </div>
+
+
+            </form>
+            
+        </div>
+    
+
+</div>
 </body>
 </html>
 
-
-
+<script>
+    var selectedFlavorNamesDisplayValue = localStorage.getItem('selectedFlavorNamesDisplayValue');
+    document.getElementById("selectedFlavorNamesDisplay").textContent = selectedFlavorNamesDisplayValue;
+</script>
 
 <script>
-    function FillFields(event) {
+
+    document.getElementById("submit-order-button").addEventListener("click", async function (event) {
+        event.preventDefault(); // מונע את ההתנהגות המובנית של הטופס
+
+        // אם כל השדות תקינים, נבצע בדיקת כתובות
         var firstName = document.getElementById("first-name").value;
         var lastName = document.getElementById("last-name").value;
         var phone = document.getElementById("phone").value;
         var street = document.getElementById("street").value;
         var city = document.getElementById("city").value;
-
-        var paymentMethodSelected = document.querySelector('input[name="payment-method"]:checked') !== null;
+        var email = document.getElementById("email").value;
         var termsCheckboxChecked = document.getElementById("terms-checkbox").checked;
-
+        console.log("hello");
         var phoneRegex = /^\d{10}$/;
         var isValidPhone = phoneRegex.test(phone);
 
         if (
-            firstName === "" ||
-            lastName === "" ||
-            phone === "" ||
-            street === "" ||
-            city === "" ||
-            !paymentMethodSelected ||
-            !termsCheckboxChecked
+            firstName !== "" &&
+            lastName !== "" &&
+            phone !== "" &&
+            street !== "" &&
+            city !== "" &&
+            termsCheckboxChecked &&
+            isValidPhone
         ) {
-            alert("אנא מלא/י את כל השדות הנדרשים");
-            event.preventDefault(); // This prevents the default action
-        } else if (!isValidPhone) {
-            alert("נא להזין מספר טלפון תקין בעל 10 ספרות");
-            event.preventDefault(); // This prevents the default action (e.g., following the link)
+            if (response.ok) {
+                // התשובה מהבדיקה הצליחה, נמשיך כרגיל עם הזמנת המוצר
+                document.getElementById("paypal-button-container").style.display = "block";
+                displayPayPalButton();
+            } else {
+                // הבדיקה נכשלה - נטפל בהתאם לתוצאה המתקבלת מהבדיקה של הכתובת
+                if (!isValidPhone) {
+                    alert("אנא מלא/י מספר טלפון תקין");
+                } else {
+                    alert("הכתובת שהזנת שגויה");
+                }
+
+                // מונע את הפעולה המתוכנת של הכפתור ומסתיר את תיבת ה-PayPal
+                event.preventDefault();
+                document.getElementById("paypal-button-container").style.display = "none";
+            }
         } else {
-            window.location.href = orderButton.getAttribute("href");
+            // אם יש שדה לא תקין, הצג הודעה מתאימה
+            alert("אנא מלא/י את כל השדות הנדרשים .");
+
+            // מונע את הפעולה המתוכנת של הכפתור ומסתיר את תיבת ה-PayPal
+            event.preventDefault();
+            document.getElementById("paypal-button-container").style.display = "none";
         }
-    }
+    });
 
 
-</script>
 
-<script>
-    // שמירת הנתונים ב־Local Storage ברגע שהטופס מוגש
-    function saveDataToLocalStorage() {
-        var lastName = document.getElementById('last-name').value;
-        var firstName = document.getElementById('first-name').value;
-        var phone = document.getElementById('phone').value;
-        var email = document.getElementById('email').value;
-        var city = document.getElementById('city').value;
-        var street = document.getElementById('street').value;
-        var price = @totalPrice;
-        console.log(street);
-
-        localStorage.setItem('lastName', lastName);
-        localStorage.setItem('firstName', firstName);
-        localStorage.setItem('phone', phone);
-        localStorage.setItem('email', email);
-        localStorage.setItem('city', city);
-        localStorage.setItem('street', street);
-        localStorage.setItem('price', price);
-    }
 </script>
