@@ -382,7 +382,7 @@ h1, h2, h3, h4, h5, h6,
     margin-bottom: 0.5rem;
     font-weight: 500;
     line-height: 1.2;
-    color: #5A3F26;
+    color: #000;
 }
 
 h1, .h1 {
@@ -6458,7 +6458,7 @@ button.bg-dark:focus {
 }
 
 .bg-white {
-    background-color: #F7ADB9 !important;
+    background-color:  #e9ecef !important;
 }
 
 .bg-transparent {
@@ -9846,7 +9846,6 @@ h6,
   left: 0;
   width: 100px;
   height: 1px;
-  background: #62C3E7;
 }
 
 .section-title.text-center::before,

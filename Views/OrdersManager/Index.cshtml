@@ -1,18 +1,44 @@
 ﻿@model IEnumerable<IceCreamsShopping.Models.Order>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Orders";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<head>
+    <style>
+        /* עיצוב הטופס */
+        form {
+            color: black;
+            text-align: right;
+            float: right; /* מיושב לצד ימין */
+            margin-right: 20px; /* מרווח מימין */
+        }
 
-<h1>Index</h1>
+        label,
+        input[type="date"],
+        input[type="submit"] {
+            display: block; /* מציג כל אלמנט בשורה נפרדת */
+            margin-bottom: 10px; /* מרווח בין כל אלמנט */
+        }
 
-<table class="table">
+        input[type="submit"] {
+            background-color: #C1E7EA; /* רקע צבעוני לכפתור סינון */
+            color: black;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<h1 style="color: black; text-align: right; font-size:30px">:היסטוריית הזמנות</h1>
+
+<table  class="table">
     <form method="get" asp-action="FilterByDate">
-        <label for="startDate">תאריך התחלה:</label>
-        <input type="date" id="startDate" name="startDate">
+        <label  for="startDate">: תאריך התחלה</label>
+        <input  type="date" id="startDate" name="startDate">
 
-        <label for="endDate">תאריך סיום:</label>
+        <label for="endDate">:תאריך סיום</label>
         <input type="date" id="endDate" name="endDate">
 
         <input type="submit" value="סנן">
@@ -108,6 +134,7 @@
                 @Html.DisplayFor(modelItem => item.IsHoliday)
             </td>
         </tr>
+
 }
     </tbody>
 </table>

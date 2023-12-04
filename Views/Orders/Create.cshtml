@@ -1,9 +1,9 @@
 ﻿@model IceCreamsShopping.Models.Order
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "OrderPage";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    int price = int.Parse(Context.Request.Query["price"]) + 30;
+  //  int price = int.Parse(Context.Request.Query["price"]) + 30;
 }
 
 <!DOCTYPE html>
@@ -14,10 +14,6 @@
         body, h1, h2, h3, p, ul, li, form, label {
             margin: 0;
             padding: 0;
-        }
-
-        .text-danger {
-            color: red;
         }
 
         /* Style the container for the three sections */
@@ -220,8 +216,8 @@
             display: none;
     </style>
 </head>
-<html>
 
+<html>
 <body>
     <div class="card" style="float: right; ">
         <h2>:סיכום הזמנה</h2>
@@ -251,7 +247,7 @@
                 <span class="shipping-text">:משלוח</span>
             </label>
             <label class="shipping-label">
-                <span>₪@price.00</span>
+                <span>₪@Context.Request.Query["price"].00</span>
                 <span style="font-size: 20px;" class="shipping-text">:סה"כ</span>
             </label>
             <hr>
@@ -262,7 +258,8 @@
             <label>אנחנו נשתמש בפרטים האישיים שלך כדי לעבד את ההזמנה, להציע לך תמיכה בתהליך באתר זה וכדי לבצע פעולות נוספות כפי שמפורט במדיניות פרטיות</label>
             <hr>
 
-            <button id="submit-order-button">שליחת הזמנה</button>
+            <button style="background:#C1E7EA" id="submit-order-button">שליחת הזמנה</button>
+
             <div class="card">
                 <div id="paypal-button-container" style="display: none;"></div>
                 <script src="https://www.paypal.com/sdk/js?client-id=AVQtxsHXxTwurvaNsMWSzDyCl5dy2AfGjz_MJqG7Y9mWUdIl4ESF38LXo32bwRQ3JVysTqoacvUMLH8Z"></script>
@@ -273,7 +270,7 @@
                                 disableMaxWidth: true
                             },
                             createOrder: function (data, actions) {
-                                var totalPrice = @price
+                                var totalPrice = @Context.Request.Query["price"]
                                 return actions.order.create({
                                     purchase_units: [{
                                         amount: {
@@ -303,12 +300,9 @@
                             }
                         }).render('#paypal-button-container')
                     }
-
                 </script>
-
             </div>
         </div>
-
 
         <div class="card">
             <h2>שיטת משלוח</h2>
@@ -349,61 +343,54 @@
                     <label asp-for="City" class="control-label">*עיר</label>
                     <input style="direction: rtl; border-radius: 0;" asp-for="City" class="form-control" id="city" value="@Context.Request.Query["city"]" />
                     <span asp-validation-for="City" class="text-danger"></span>
+
                 </div>
                 <div class="form-group">
                     <label asp-for="Street" class="control-label">*רחוב</label>
                     <input style="direction: rtl; border-radius: 0;" asp-for="Street" class="form-control" id="street" value="@Context.Request.Query["street"]" />
                     <span asp-validation-for="Street" class="text-danger"></span>
+
                 </div>
-
-
+                                @if (TempData.ContainsKey("ErrorMessage"))
+                {
+                    <div class="text-danger">@TempData["ErrorMessage"]</div>
+                }
 
                 <div style="display: none;" class="form-group">
                     <label asp-for="Product" class="control-label">מוצר נבחר</label>
                     <input asp-for="Product" class="form-control" value="@Context.Request.Query["name"]" />
                     <span asp-validation-for="Product" class="text-danger"></span>
                 </div>
-                <div>
-                    @Html.ValidationMessage("IsAddress", new { @class = "text-danger" })
-                </div>
-
-
-
 
                 <div style="display: none;" class="form-group">
                     <label asp-for="OrderPrice" class="control-label">מחיר הזמנה</label>
-                    <input  asp-for="OrderPrice" class="form-control" value="@price" />
+                    <input asp-for="OrderPrice" class="form-control" value="@Context.Request.Query["price"]" />
                     <span asp-validation-for="OrderPrice" class="text-danger"></span>
                 </div>
+
                 <div style="display: none;" class="form-group">
                     <label asp-for="Weather" class="control-label">מזג אויר</label>
-                    <input  asp-for="Weather" class="form-control" value="@Context.Request.Query["weather"]" />
+                    <input asp-for="Weather" class="form-control" value="@Context.Request.Query["weather"]" />
                     <span asp-validation-for="Weather" class="text-danger"></span>
                 </div>
+
                 <div style="display: none;" class="form-group">
                     <label asp-for="IsHoliday" class="control-label">האם חג</label>
                     @if (Context.Request.Query["holiday"].ToString().ToLower() == "true")
                     {
-                        <input  asp-for="IsHoliday" type="checkbox" class="form-check-input" checked />
+                        <input asp-for="IsHoliday" type="checkbox" class="form-check-input" checked />
                     }
                     else
                     {
-                        <input  asp-for="IsHoliday" type="checkbox" class="form-check-input" />
+                        <input asp-for="IsHoliday" type="checkbox" class="form-check-input" />
                     }
                     <span asp-validation-for="IsHoliday" class="text-danger"></span>
                 </div>
 
-
                 <div style="display: none;" class="form-group">
                     <label asp-for="OrderDate" class="control-label">תאריך</label>
-                    <input  class="form-control" name="OrderDate" value="@Context.Request.Query["day"]" />
+                    <input class="form-control" name="OrderDate" value="@Context.Request.Query["day"]" />
                     <span asp-validation-for="OrderDate" class="text-danger"></span>
-                </div>
-
-
-
-                <div class="form-group">
-                    <input style="border-radius: 0; background:#F7ADB9" type="submit" value="בדיקת תקינות כתובת" class="btn btn-primary btn-sm" />
                 </div>
 
 
@@ -411,18 +398,18 @@
                 <input type="hidden" name="Image" value="@(Context.Request.Query["image"])" />
                 <input type="hidden" name="Name" value="@(Context.Request.Query["name"])" />
 
+                <div class="form-group">
+                    <input style="border-radius: 0; background:#C1E7EA" type="submit" value="בדיקת תקינות כתובת" class="btn btn-primary btn-sm" />
+                </div>
 
                 <div class="form-group">
                     <input id="save" style="border-radius: 0; background:#F7ADB9; display: none;" type="submit" value="שומר" class="btn btn-primary btn-sm" />
                 </div>
 
+
             </form>
         </div>
-
-
-
     </div>
-
 </body>
 </html>
 
@@ -430,8 +417,6 @@
     var selectedFlavorNamesDisplayValue = localStorage.getItem('selectedFlavorNamesDisplayValue');
     document.getElementById("selectedFlavorNamesDisplay").textContent = selectedFlavorNamesDisplayValue;
 </script>
-
-
 <script>
     document.getElementById("submit-order-button").addEventListener("click", async function (event) {
         event.preventDefault(); // מונע את ההתנהגות המובנית של הטופס

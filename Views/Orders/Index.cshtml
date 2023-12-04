@@ -2,11 +2,23 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<!DOCTYPE html>
+<!DOCTYPE html> 
+<head>
+    <style>
+        .center-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh; /* על מנת להמריץ את הטקסט לאמצע הדף */
+            color:#000;
 
+        }
+
+    </style>
+</head>
 <html>
 <body>
-    <h1>ההזמנה בוצעה בהצלחה</h1>
+    <h1 class="center-text">ההזמנה בוצעה בהצלחה</h1>
 </body>
 </html>
 

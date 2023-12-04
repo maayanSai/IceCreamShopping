@@ -43,12 +43,12 @@ namespace IceCreamsShopping.Controllers
             else
             {
                 var IsAddress = await cheakAddress(order.Street, order.City);
-                var Weather = await cheakWeather(order.City);
-                var date = await cheakDate();
+
                 if (IsAddress)
                 {
 
-
+                    var Weather = await cheakWeather(order.City);
+                    var date = await cheakDate();
                     order.Weather = Weather.ToString("N2");
                     order.IsHoliday = date.IsHoliday;
                     order.OrderDate = date.time;
@@ -70,7 +70,8 @@ namespace IceCreamsShopping.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("IsAddress", "The street and city not exist.");
+                    ModelState.AddModelError("IsAddress", ".הכתובת אינה תקינה");
+                    TempData["ErrorMessage"] = ".הכתובת אינה תקינה";
                     return RedirectToAction("Create", "Orders", new
                     {
                         image = Image,
@@ -80,16 +81,13 @@ namespace IceCreamsShopping.Controllers
                         lastName = order.LastName,
                         phone = order.Phone,
                         email = order.Email,
-                        street = order.Street,
-                        city = order.City,
-
                     });
+
 
                 }
             }
-
-
         }
+
         private async Task<bool> cheakAddress(string street, string city)
         {
             var _apiServices = new ApiServices("acc_85435d24acba976");

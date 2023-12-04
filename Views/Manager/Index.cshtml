@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "ManagerPage";
 }
 
 <!DOCTYPE html>
@@ -11,24 +11,36 @@
             text-align: center;
         }
 
-        button {
-            width: 100px;
-            height: 100px;
-            margin: 10px;
+        /* עיצוב הכפתורים */
+        #productButton,
+        #flavorsButton,
+        #shoppingHistoryButton {
+            display: inline-block;
+            width: 150px; /* גודל קבוע לכל הכפתורים */
+            margin: 5px; /* מרווח בין הכפתורים */
+            text-align: center; /* מרכוז טקסט בתוך הכפתור */
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #C1E7EA;
+            color: black;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none; /* מנע הצגת קו תחתון עבור הלינקים */
         }
+
     </style>
 </head>
 
 <body>
-    <h1>Manager</h1>
-    <p>To manage the store select:</p>
+    <h1 style="color: black; text-align: center; font-size:35px">דף מנהל</h1>
+    <p style="color: black; text-align: center; font-size:20px">:לניהול החנות בחר</p>
 
     <a href="@Url.Action("Index", "ProductsManager")"><button type="button" id="productButton">Products</button></a>
     <a href="@Url.Action("Index", "FlavorsManager")"><button type="button" id="flavorsButton">Flavours</button></a>
     <a href="@Url.Action("Index", "OrdersManager")"><button type="button" id="shoppingHistoryButton">Shopping History</button></a>
 
-    <a class="nav-item nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
-
+    <a class="nav-item nav-link" asp-area="Identity" asp-page="/Account/Register">להוספת מנהל חדש</a>
 
 </body>
 </html>
