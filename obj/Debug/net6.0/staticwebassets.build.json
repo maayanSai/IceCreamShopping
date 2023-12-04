@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "kl7KfOcPzWcfIwM7HngI3B/ga/9Tv1sjBS/m76HNyuA=",
+  "Hash": "bbeRsQfV9Qamn/lGrCEXPt7k6R/bivkji3cexyEgteo=",
   "Source": "IceCreamsShopping",
   "BasePath": "_content/IceCreamsShopping",
   "Mode": "Default",
@@ -1122,6 +1122,23 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
+      "Identity": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\img\\1.png",
+      "SourceId": "IceCreamsShopping",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\",
+      "BasePath": "_content/IceCreamsShopping",
+      "RelativePath": "img/1.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\1.png"
+    },
+    {
       "Identity": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\img\\10.jpg",
       "SourceId": "IceCreamsShopping",
       "SourceType": "Discovered",
@@ -1292,12 +1309,12 @@
       "OriginalItemSpec": "wwwroot\\img\\19.jpg"
     },
     {
-      "Identity": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\img\\2.jpg",
+      "Identity": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\img\\2.png",
       "SourceId": "IceCreamsShopping",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\",
       "BasePath": "_content/IceCreamsShopping",
-      "RelativePath": "img/2.jpg",
+      "RelativePath": "img/2.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1306,7 +1323,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\img\\2.jpg"
+      "OriginalItemSpec": "wwwroot\\img\\2.png"
     },
     {
       "Identity": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\img\\20.jpg",
@@ -1479,12 +1496,12 @@
       "OriginalItemSpec": "wwwroot\\img\\29.jpg"
     },
     {
-      "Identity": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\img\\3.jpg",
+      "Identity": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\img\\3.png",
       "SourceId": "IceCreamsShopping",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\",
       "BasePath": "_content/IceCreamsShopping",
-      "RelativePath": "img/3.jpg",
+      "RelativePath": "img/3.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1493,7 +1510,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\img\\3.jpg"
+      "OriginalItemSpec": "wwwroot\\img\\3.png"
     },
     {
       "Identity": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\img\\30.jpg",
@@ -1530,12 +1547,12 @@
       "OriginalItemSpec": "wwwroot\\img\\376751977_287974783846108_6161715722000662304_n.mp4"
     },
     {
-      "Identity": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\img\\4.jpg",
+      "Identity": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\img\\4.png",
       "SourceId": "IceCreamsShopping",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\",
       "BasePath": "_content/IceCreamsShopping",
-      "RelativePath": "img/4.jpg",
+      "RelativePath": "img/4.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1544,24 +1561,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\img\\4.jpg"
-    },
-    {
-      "Identity": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\img\\5.jpg",
-      "SourceId": "IceCreamsShopping",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\",
-      "BasePath": "_content/IceCreamsShopping",
-      "RelativePath": "img/5.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\img\\5.jpg"
+      "OriginalItemSpec": "wwwroot\\img\\4.png"
     },
     {
       "Identity": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\img\\6.jpg",
@@ -2159,23 +2159,6 @@
       "OriginalItemSpec": "wwwroot\\img\\Nougat Wafer.jpg"
     },
     {
-      "Identity": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\img\\open.mp4",
-      "SourceId": "IceCreamsShopping",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\",
-      "BasePath": "_content/IceCreamsShopping",
-      "RelativePath": "img/open.mp4",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\img\\open.mp4"
-    },
-    {
       "Identity": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\img\\open1.jpg",
       "SourceId": "IceCreamsShopping",
       "SourceType": "Discovered",
@@ -2293,6 +2276,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\OpeningImage2.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\img\\opentohome.mp4",
+      "SourceId": "IceCreamsShopping",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\",
+      "BasePath": "_content/IceCreamsShopping",
+      "RelativePath": "img/opentohome.mp4",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\opentohome.mp4"
     },
     {
       "Identity": "C:\\Users\\Maayan\\IceCream-Maayan&Hadas\\IceCreamsShopping\\wwwroot\\img\\pickup.jpg",

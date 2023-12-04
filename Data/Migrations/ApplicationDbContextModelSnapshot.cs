@@ -63,10 +63,6 @@ namespace IceCreamsShopping.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Flavors")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsHoliday")
                         .HasColumnType("bit");
 

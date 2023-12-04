@@ -2,6 +2,7 @@ using IceCreamsShopping.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using IceCreamsShopping.ApiService; // Add this import statement
+using IceCreamsShopping.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<OrdersManagerController>();
+builder.Services.AddTransient<OrdersController>();
 
 
 

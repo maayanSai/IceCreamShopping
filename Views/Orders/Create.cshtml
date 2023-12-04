@@ -3,9 +3,9 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string priceString = Context.Request.Query["price"];
-    int totalPrice = 400; /*int.Parse(priceString) + 30;*/
+    int price = int.Parse(Context.Request.Query["price"]) + 30;
 }
+
 <!DOCTYPE html>
 <head>
     <style>
@@ -104,6 +104,7 @@
         h2 {
             font-size: 20px;
             margin-bottom: 10px;
+            coloe: #000;
         }
 
         */
@@ -222,9 +223,6 @@
 <html>
 
 <body>
-<p>
-        תאריך: @ViewBag.OrderDate
-</p>
     <div class="card" style="float: right; ">
         <h2>:סיכום הזמנה</h2>
         <img src="/@Context.Request.Query["image"]"></img>
@@ -236,7 +234,7 @@
                 <p>@flavor</p>
             }
         </p1>
-        <span data-bind="text: getValue()" style="background:#fff"> ₪ סה"כ: @priceString.00 </span>
+        <span data-bind="text: getValue()" style="background:#fff"> ₪ סה"כ: @Context.Request.Query["price"].00 </span>
     </div>
 
     <div style="clear: both;"></div>
@@ -245,7 +243,7 @@
         <div class="card">
             <h2>תשלום</h2>
             <label class="shipping-label">
-                <span>₪@priceString.00</span>
+                <span>₪@Context.Request.Query["price"].00</span>
                 <span class="shipping-text">:סכום ביניים</span>
             </label>
             <label class="shipping-label">
@@ -253,7 +251,7 @@
                 <span class="shipping-text">:משלוח</span>
             </label>
             <label class="shipping-label">
-                <span>₪@totalPrice.00</span>
+                <span>₪@price.00</span>
                 <span style="font-size: 20px;" class="shipping-text">:סה"כ</span>
             </label>
             <hr>
@@ -265,7 +263,6 @@
             <hr>
 
             <button id="submit-order-button">שליחת הזמנה</button>
-
             <div class="card">
                 <div id="paypal-button-container" style="display: none;"></div>
                 <script src="https://www.paypal.com/sdk/js?client-id=AVQtxsHXxTwurvaNsMWSzDyCl5dy2AfGjz_MJqG7Y9mWUdIl4ESF38LXo32bwRQ3JVysTqoacvUMLH8Z"></script>
@@ -276,8 +273,7 @@
                                 disableMaxWidth: true
                             },
                             createOrder: function (data, actions) {
-                                var totalPrice = @totalPrice;
-                                console.log(totalPrice);
+                                var totalPrice = @price
                                 return actions.order.create({
                                     purchase_units: [{
                                         amount: {
@@ -287,10 +283,9 @@
                                 });
                             },
                             onApprove: function (data, actions) {
-                                // Capture the funds from the transaction
                                 return actions.order.capture().then(function (details) {
-                                    // Call your server to save the transaction
-                                    return fetch('/your-server-side-code', {
+                                    // בקשה לשמירת העסקה בשרת
+                                    fetch('/your-server-side-code', {
                                         method: 'post',
                                         headers: {
                                             'content-type': 'application/json'
@@ -299,10 +294,10 @@
                                             orderID: data.orderID
                                         })
                                     }).then(function (response) {
-                                        alert('ההזמנה בוצעה בהצלחה! תודה על הרכישה.');
+                                        // לחיצה אוטומטית על כפתור השמירה
+                                        document.getElementById('save').click();
                                     }).catch(function (error) {
-                                        console.error('שגיאה בביצוע בקשה לשרת:', error);
-                                        alert('אירעה שגיאה בעיבוד ההזמנה. נא לנסות שוב מאוחר יותר.');
+                                        console.error('Error:', error);
                                     });
                                 });
                             }
@@ -310,7 +305,7 @@
                     }
 
                 </script>
-               
+
             </div>
         </div>
 
@@ -325,77 +320,109 @@
             <textarea id="comments" name="comments" rows="4" maxlength="200" style="direction: rtl;"></textarea>
         </div>
 
-<div class="card">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="right-aligned-label"></div>
+        <div class="card">
+            <h2>פרטי חיוב</h2>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="right-aligned-label"></div>
                 <div class="form-group">
-                    <label asp-for="LastName" class="control-label">שם משפחה</label>
-                    <input style="direction: rtl;" asp-for="LastName" class="form-control" id="last-name" />
+                    <label asp-for="LastName" class="control-label">*שם משפחה</label>
+                    <input style="direction: rtl; border-radius: 0;" asp-for="LastName" class="form-control" id="last-name" value="@Context.Request.Query["lastName"]" />
                     <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label">שם פרטי</label>
-                    <input asp-for="FirstName" class="form-control" id="first-name" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
                 <div class="form-group">
-                    <label asp-for="Email" class="control-label">אימייל</label>
-                    <input asp-for="Email" class="form-control" id="email" />
+                    <label asp-for="FirstName" class="control-label">*שם פרטי</label>
+                    <input style="direction: rtl; border-radius: 0;" asp-for="FirstName" class="form-control" id="first-name" value="@Context.Request.Query["firstName"]" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label">*אימייל</label>
+                    <input style="direction: rtl; border-radius: 0;" asp-for="Email" class="form-control" id="email" value="@Context.Request.Query["email"]" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label">טלפון</label>
-                    <input asp-for="Phone" class="form-control" id="phone" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="City" class="control-label">עיר</label>
-                    <input asp-for="City" class="form-control" id="city" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Street" class="control-label">רחוב</label>
-                    <input asp-for="Street" class="form-control" id="street" />
-                <span asp-validation-for="Street" class="text-danger"></span>
-            </div>
                 <div class="form-group">
+                    <label asp-for="Phone" class="control-label">*טלפון</label>
+                    <input style="direction: rtl; border-radius: 0;" asp-for="Phone" class="form-control" id="phone" value="@Context.Request.Query["phone"]" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="City" class="control-label">*עיר</label>
+                    <input style="direction: rtl; border-radius: 0;" asp-for="City" class="form-control" id="city" value="@Context.Request.Query["city"]" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Street" class="control-label">*רחוב</label>
+                    <input style="direction: rtl; border-radius: 0;" asp-for="Street" class="form-control" id="street" value="@Context.Request.Query["street"]" />
+                    <span asp-validation-for="Street" class="text-danger"></span>
+                </div>
+
+
+
+                <div style="display: none;" class="form-group">
                     <label asp-for="Product" class="control-label">מוצר נבחר</label>
-                    <input asp-for="Product" class="form-control"  value="@Context.Request.Query["name"]" />
+                    <input asp-for="Product" class="form-control" value="@Context.Request.Query["name"]" />
                     <span asp-validation-for="Product" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Flavors" class="control-label">מוצר נבחר</label>
-                    <input asp-for="Flavors" class="form-control"  value="@Context.Request.Query["flavors"]" />
-                    <span asp-validation-for="Flavors" class="text-danger"></span>
+                <div>
+                    @Html.ValidationMessage("IsAddress", new { @class = "text-danger" })
                 </div>
-                <div class="form-group">
+
+
+
+
+                <div style="display: none;" class="form-group">
                     <label asp-for="OrderPrice" class="control-label">מחיר הזמנה</label>
-                    <input asp-for="OrderPrice" class="form-control" value="@totalPrice" />
+                    <input  asp-for="OrderPrice" class="form-control" value="@price" />
                     <span asp-validation-for="OrderPrice" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div style="display: none;" class="form-group">
                     <label asp-for="Weather" class="control-label">מזג אויר</label>
-                    <input asp-for="Weather" class="form-control" value="@ViewBag.Weather" />
+                    <input  asp-for="Weather" class="form-control" value="@Context.Request.Query["weather"]" />
                     <span asp-validation-for="Weather" class="text-danger"></span>
                 </div>
-
-
-
-            <div>
-                    <span>
-                        @Html.ValidationMessage("IsAddress", new { @class = "text-danger" })
-                    </span>
+                <div style="display: none;" class="form-group">
+                    <label asp-for="IsHoliday" class="control-label">האם חג</label>
+                    @if (Context.Request.Query["holiday"].ToString().ToLower() == "true")
+                    {
+                        <input  asp-for="IsHoliday" type="checkbox" class="form-check-input" checked />
+                    }
+                    else
+                    {
+                        <input  asp-for="IsHoliday" type="checkbox" class="form-check-input" />
+                    }
+                    <span asp-validation-for="IsHoliday" class="text-danger"></span>
                 </div>
+
+
+                <div style="display: none;" class="form-group">
+                    <label asp-for="OrderDate" class="control-label">תאריך</label>
+                    <input  class="form-control" name="OrderDate" value="@Context.Request.Query["day"]" />
+                    <span asp-validation-for="OrderDate" class="text-danger"></span>
+                </div>
+
+
+
                 <div class="form-group">
-                    <input id="address" type="submit" value="בדיקת תקינות כתובת" class="btn btn-primary" />
+                    <input style="border-radius: 0; background:#F7ADB9" type="submit" value="בדיקת תקינות כתובת" class="btn btn-primary btn-sm" />
                 </div>
-        </form>
+
+
+                <input type="hidden" name="Price" value="@(Context.Request.Query["price"])" />
+                <input type="hidden" name="Image" value="@(Context.Request.Query["image"])" />
+                <input type="hidden" name="Name" value="@(Context.Request.Query["name"])" />
+
+
+                <div class="form-group">
+                    <input id="save" style="border-radius: 0; background:#F7ADB9; display: none;" type="submit" value="שומר" class="btn btn-primary btn-sm" />
+                </div>
+
+            </form>
         </div>
 
 
 
     </div>
+
 </body>
 </html>
 
@@ -403,6 +430,8 @@
     var selectedFlavorNamesDisplayValue = localStorage.getItem('selectedFlavorNamesDisplayValue');
     document.getElementById("selectedFlavorNamesDisplay").textContent = selectedFlavorNamesDisplayValue;
 </script>
+
+
 <script>
     document.getElementById("submit-order-button").addEventListener("click", async function (event) {
         event.preventDefault(); // מונע את ההתנהגות המובנית של הטופס
@@ -420,18 +449,16 @@
         var phoneRegex = /^\d{10}$/;
         var isValidPhone = phoneRegex.test(phone);
 
-        if (firstName !== "" &&lastName !== "" &&phone !== "" &&street !== "" &&city !== "" &&termsCheckboxChecked)
-        {
+        if (firstName !== "" && lastName !== "" && phone !== "" && street !== "" && city !== "" && termsCheckboxChecked) {
             if (!isValidPhone) {
                 alert("אנא מלא/י מספר טלפון תקין");
             }
-            else {         
+            else {
                 document.getElementById("paypal-button-container").style.display = "block";
                 displayPayPalButton();
             }
-        } 
-        else 
-        {
+        }
+        else {
             alert("אנא מלא/י את כל השדות הנדרשים")
             event.preventDefault();
             document.getElementById("paypal-button-container").style.display = "none";

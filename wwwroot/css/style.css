@@ -94,9 +94,9 @@ hr {
 }
 
 h1, h2, h3, h4, h5, h6 {
-/*    margin-top: 0;
-*/    margin-bottom: 0.5rem;
-    color: #aa996b
+    /*    margin-top: 0;
+*/ margin-bottom: 0.5rem;
+    color: #F7ADB9;
 }
 
 p {
@@ -6458,7 +6458,7 @@ button.bg-dark:focus {
 }
 
 .bg-white {
-    background-color: #D9B9A0 !important;
+    background-color: #F7ADB9 !important;
 }
 
 .bg-transparent {
@@ -9837,7 +9837,6 @@ h6,
   left: 0;
   width: 100px;
   height: 5px;
-  background: #F195B2;
 }
 
 .section-title::after {

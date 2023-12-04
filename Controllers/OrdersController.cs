@@ -15,6 +15,12 @@ namespace IceCreamsShopping.Controllers
     {
         private readonly ApiServices _apiServices;
 
+        private readonly OrdersManagerController _ordersManagerController;
+
+        public OrdersController(OrdersManagerController ordersManagerController)
+        {
+            _ordersManagerController = ordersManagerController;
+        }
 
         public async Task<IActionResult> Index()
         {
@@ -28,27 +34,62 @@ namespace IceCreamsShopping.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Order order)
+        public async Task<IActionResult> Create(Order order, int Price, string Image, string Name)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
+            {
+                return await _ordersManagerController.Create(order);
+            }
+            else
             {
                 var IsAddress = await cheakAddress(order.Street, order.City);
-                var weather = await cheakWeather(order.City);
+                var Weather = await cheakWeather(order.City);
                 var date = await cheakDate();
-
-
                 if (IsAddress)
                 {
-                    ViewBag.Weather = weather.ToString("N2");
-                    ViewBag.OrderDate = date;
-                    return View(order);
+
+
+                    order.Weather = Weather.ToString("N2");
+                    order.IsHoliday = date.IsHoliday;
+                    order.OrderDate = date.time;
+                    return RedirectToAction("Create", "Orders", new
+                    {
+                        image = Image,
+                        price = Price,
+                        name = Name,
+                        firstName = order.FirstName,
+                        lastName = order.LastName,
+                        phone = order.Phone,
+                        email = order.Email,
+                        street = order.Street,
+                        city = order.City,
+                        weather = order.Weather,
+                        holiday = order.IsHoliday,
+                        day = order.OrderDate,
+                    });
                 }
                 else
-                    ModelState.AddModelError("IsAddress", "The street and city not exict.");
-            }
-            return View(order);
-        }
+                {
+                    ModelState.AddModelError("IsAddress", "The street and city not exist.");
+                    return RedirectToAction("Create", "Orders", new
+                    {
+                        image = Image,
+                        price = Price,
+                        name = Name,
+                        firstName = order.FirstName,
+                        lastName = order.LastName,
+                        phone = order.Phone,
+                        email = order.Email,
+                        street = order.Street,
+                        city = order.City,
 
+                    });
+
+                }
+            }
+
+
+        }
         private async Task<bool> cheakAddress(string street, string city)
         {
             var _apiServices = new ApiServices("acc_85435d24acba976");
@@ -62,10 +103,10 @@ namespace IceCreamsShopping.Controllers
             var answer = await _apiServices.CallServiceApi<double>($"http://localhost:5103/api/Weather/{Uri.EscapeDataString(city)}");
             return answer;
         }
-        private async Task<DateTime> cheakDate()
+        private async Task<HebcalData> cheakDate()
         {
             var _apiServices = new ApiServices("acc_85435d24acba976");
-            var answer = await _apiServices.CallServiceApi<DateTime>($"http://localhost:5103/api/Hebcal");
+            var answer = await _apiServices.CallServiceApi<HebcalData>("http://localhost:5103/api/Hebcal");
             return answer;
         }
     }

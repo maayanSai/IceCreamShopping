@@ -22,20 +22,20 @@ namespace IceCreamsShopping.Controllers
         // GET: OrdersManager
         public async Task<IActionResult> Index()
         {
-              return _context.Order != null ? 
-                          View(await _context.Order.ToListAsync()) :
+              return _context.Orders != null ? 
+                          View(await _context.Orders.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Order'  is null.");
         }
 
         // GET: OrdersManager/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Order == null)
+            if (id == null || _context.Orders == null)
             {
                 return NotFound();
             }
 
-            var order = await _context.Order
+            var order = await _context.Orders
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
@@ -70,12 +70,12 @@ namespace IceCreamsShopping.Controllers
         // GET: OrdersManager/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Order == null)
+            if (id == null || _context.Orders == null)
             {
                 return NotFound();
             }
 
-            var order = await _context.Order.FindAsync(id);
+            var order = await _context.Orders.FindAsync(id);
             if (order == null)
             {
                 return NotFound();
@@ -121,12 +121,12 @@ namespace IceCreamsShopping.Controllers
         // GET: OrdersManager/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Order == null)
+            if (id == null || _context.Orders == null)
             {
                 return NotFound();
             }
 
-            var order = await _context.Order
+            var order = await _context.Orders
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
@@ -141,14 +141,14 @@ namespace IceCreamsShopping.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Order == null)
+            if (_context.Orders == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.Order'  is null.");
             }
-            var order = await _context.Order.FindAsync(id);
+            var order = await _context.Orders.FindAsync(id);
             if (order != null)
             {
-                _context.Order.Remove(order);
+                _context.Orders.Remove(order);
             }
             
             await _context.SaveChangesAsync();
@@ -157,7 +157,22 @@ namespace IceCreamsShopping.Controllers
 
         private bool OrderExists(int id)
         {
-          return (_context.Order?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Orders?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+        public ActionResult FilterByDate(DateTime? startDate, DateTime? endDate)
+        {
+            if (startDate.HasValue && endDate.HasValue)
+            {
+                var filteredOrders = _context.Orders.Where(o => o.OrderDate >= startDate && o.OrderDate <= endDate).ToList();
+                return View("Index", filteredOrders);
+            }
+            else
+            {
+                var allOrders = _context.Orders.ToList();
+                return View("Index", allOrders);
+            }
+        }
+
+
     }
 }

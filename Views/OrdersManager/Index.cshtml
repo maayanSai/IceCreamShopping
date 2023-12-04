@@ -7,10 +7,32 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
+    <form method="get" asp-action="FilterByDate">
+        <label for="startDate">תאריך התחלה:</label>
+        <input type="date" id="startDate" name="startDate">
+
+        <label for="endDate">תאריך סיום:</label>
+        <input type="date" id="endDate" name="endDate">
+
+        <input type="submit" value="סנן">
+    </form>
+
+    
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                @if (item.OrderDate >= ViewBag.StartDate && item.OrderDate <= ViewBag.EndDate)
+                {
+                    <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                    <!-- שאר העמודות כאן -->
+                }
+            </tr>
+        }
+    }
+
     <thead>
         <tr>
             <th>
@@ -36,9 +58,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Product)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Flavors)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.OrderPrice)
@@ -80,9 +99,6 @@
                 @Html.DisplayFor(modelItem => item.Product)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Flavors)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.OrderPrice)
             </td>
             <td>
@@ -91,12 +107,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.IsHoliday)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
         </tr>
 }
     </tbody>
 </table>
+
+<script>
+    let dateInput = document.getElementById('startDate');
+    let selectedDate = new Date(dateInput.value);
+    let formattedDate = selectedDate.toLocaleDateString('en-GB'); // ניתן לשנות את en-GB לפורמט שאתה רוצה
+
+    console.log(formattedDate); // תקבל את התאריך בפורמט הרצוי
+</script>

@@ -41,9 +41,9 @@
         <div class="product">
             <a href="@Url.Action("Index", "Flavors", new {name= product.Name, price=product.Price, image=product.ImageUrl, flavorsLimit = product.MaxFlavors, des=product.Description })" class="selected-products-link-button">
                 <img src="/@product.ImageUrl" width="100" height="100" />
-                <h2 style="font-size: 20px">@product.Name</h2>
+                <h2 style="font-size: 20px; color="#000">@product.Name</h2>
                 <p>@product.Description</p>
-                <p>Price: @product.Price ₪</p>
+                <p>Price: @product.Price.00 ₪</p>
                 <input type="hidden" name="productId" value="@product.Id" />
             </a>
         </div>

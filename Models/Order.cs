@@ -11,7 +11,6 @@
         public string Email { get; set; }
         public string Weather { get; set; }
         public string Product { get; set; }
-        public string Flavors { get; set; }
         public int OrderPrice { get; set; }
         public DateTime OrderDate { get; set; }
         public bool IsHoliday { get; set; }

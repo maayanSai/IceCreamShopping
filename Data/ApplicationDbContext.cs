@@ -14,7 +14,7 @@ namespace IceCreamsShopping.Data
         public DbSet<Product>? Products { get; set; }
         public DbSet<Flavors>? Flavors { get; set; }
         public DbSet<Stores>? Stores { get; set; }
-        public DbSet<IceCreamsShopping.Models.Order>? Order { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
 
     }
