@@ -195,22 +195,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmxhdm9yc01hbmFnZXJcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Maayan/IceCream-Maayan&Hadas/IceCreamsShopping/Views/Flavors/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmxhdm9yc1xDcmVhdGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Maayan/IceCream-Maayan&Hadas/IceCreamsShopping/Views/Flavors/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmxhdm9yc1xEZWxldGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Maayan/IceCream-Maayan&Hadas/IceCreamsShopping/Views/Flavors/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmxhdm9yc1xEZXRhaWxzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Maayan/IceCream-Maayan&Hadas/IceCreamsShopping/Views/Flavors/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmxhdm9yc1xFZGl0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/Maayan/IceCream-Maayan&Hadas/IceCreamsShopping/Views/Flavors/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmxhdm9yc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -251,10 +235,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Maayan/IceCream-Maayan&Hadas/IceCreamsShopping/Views/Order/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcSW5kZXguY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/Maayan/IceCream-Maayan&Hadas/IceCreamsShopping/Views/ProductsManager/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNNYW5hZ2VyXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -275,22 +255,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNNYW5hZ2VyXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Maayan/IceCream-Maayan&Hadas/IceCreamsShopping/Views/Products/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcQ3JlYXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Maayan/IceCream-Maayan&Hadas/IceCreamsShopping/Views/Products/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcRGVsZXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Maayan/IceCream-Maayan&Hadas/IceCreamsShopping/Views/Products/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcRGV0YWlscy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Maayan/IceCream-Maayan&Hadas/IceCreamsShopping/Views/Products/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcRWRpdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/Maayan/IceCream-Maayan&Hadas/IceCreamsShopping/Views/Products/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -305,22 +269,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Maayan/IceCream-Maayan&Hadas/IceCreamsShopping/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Maayan/IceCream-Maayan&Hadas/IceCreamsShopping/Views/Stores/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RvcmVzXENyZWF0ZS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Maayan/IceCream-Maayan&Hadas/IceCreamsShopping/Views/Stores/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RvcmVzXERlbGV0ZS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Maayan/IceCream-Maayan&Hadas/IceCreamsShopping/Views/Stores/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RvcmVzXERldGFpbHMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Maayan/IceCream-Maayan&Hadas/IceCreamsShopping/Views/Stores/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RvcmVzXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Maayan/IceCream-Maayan&Hadas/IceCreamsShopping/Views/Stores/Index.cshtml]

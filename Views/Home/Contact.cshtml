@@ -5,18 +5,27 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
-    <title>ICREAM - Contact Page</title>
+    <title>ContactPage</title>
+    <style>
+        .message {
+            display: none;
+            font-size: 18px;
+            text-align: center;
+            color: white;
+            background-color: red;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
-
 <body>
     <!-- Contact Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-6">
-                    <h1 class="section-title position-relative text-center mb-5">Contact Us | צור קשר</h1>
+                    <h1 style="color:#000" class="section-title position-relative text-center mb-5">Contact Us | צור קשר</h1>
                 </div>
             </div>
             <div class="row justify-content-center">
@@ -42,40 +51,8 @@
                                 <textarea class="form-control p-4" rows="6" id="message" placeholder="Message" required="required" data-validation-required-message="Please enter your message"></textarea>
                                 <p class="help-block text-danger"></p>
                             </div>
-                            <div>
-                                <!DOCTYPE html>
-                                <html>
-                                <head>
-                                    <title>Display Message on Button Click</title>
-                                    <style>
-                                        .message {
-                                            display: none;
-                                            font-size: 18px;
-                                            text-align: center;
-                                            color: white;
-                                            background-color: red;
-                                            padding: 10px;
-                                            margin-top: 20px;
-                                        }
-                                    </style>
-                                </head>
-                                <body>
-                                    <a id="messageButton" class="btn btn-primary btn-block py-3 px-5">Send Message</a>
-                                    <div id="successMessage" class="message">Your message has been sent</div>
-
-                                    <script>
-                                        document.getElementById("messageButton").addEventListener("click", function (event) {
-                                            // נמנע את הרצפות הפעולות המשתרעות לאחר לחיצה על הקישור
-                                            event.preventDefault();
-
-                                            // הצג את ההודעה
-                                            document.getElementById("successMessage").style.display = "block";
-                                        });
-                                    </script>
-                                </body>
-                            </html>
-
-                            </div>
+                            <a style="background:#C1E7EA" id="messageButton" class="btn btn-primary btn-block py-3 px-5">Send Message</a>
+                            <div id="successMessage" class="message">Your message has been sent</div>
                         </form>
                     </div>
                 </div>
@@ -85,5 +62,13 @@
     <!-- Contact End -->
 
 </body>
-
 </html>
+<script>
+    document.getElementById("messageButton").addEventListener("click", function (event) {
+        // נמנע את הרצפות הפעולות המשתרעות לאחר לחיצה על הקישור
+        event.preventDefault();
+
+        // הצג את ההודעה
+        document.getElementById("successMessage").style.display = "block";
+    });
+</script>

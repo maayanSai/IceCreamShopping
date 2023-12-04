@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "OrderPage";
     Layout = "~/Views/Shared/_Layout.cshtml";
-  //  int price = int.Parse(Context.Request.Query["price"]) + 30;
+   int price = int.Parse(Context.Request.Query["price"]) + 30;
 }
 
 <!DOCTYPE html>
@@ -247,7 +247,7 @@
                 <span class="shipping-text">:משלוח</span>
             </label>
             <label class="shipping-label">
-                <span>₪@Context.Request.Query["price"].00</span>
+                <span>₪@price.00</span>
                 <span style="font-size: 20px;" class="shipping-text">:סה"כ</span>
             </label>
             <hr>
@@ -270,7 +270,7 @@
                                 disableMaxWidth: true
                             },
                             createOrder: function (data, actions) {
-                                var totalPrice = @Context.Request.Query["price"]
+                                var totalPrice = @price
                                 return actions.order.create({
                                     purchase_units: [{
                                         amount: {
@@ -364,7 +364,7 @@
 
                 <div style="display: none;" class="form-group">
                     <label asp-for="OrderPrice" class="control-label">מחיר הזמנה</label>
-                    <input asp-for="OrderPrice" class="form-control" value="@Context.Request.Query["price"]" />
+                    <input asp-for="OrderPrice" class="form-control" value="@price" />
                     <span asp-validation-for="OrderPrice" class="text-danger"></span>
                 </div>
 

@@ -27,23 +27,6 @@ namespace IceCreamsShopping.Controllers
                           Problem("Entity set 'ApplicationDbContext.Order'  is null.");
         }
 
-        // GET: OrdersManager/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Orders == null)
-            {
-                return NotFound();
-            }
-
-            var order = await _context.Orders
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return View(order);
-        }
 
         // GET: OrdersManager/Create
         public IActionResult Create()
@@ -67,111 +50,7 @@ namespace IceCreamsShopping.Controllers
             return View(order);
         }
 
-        // GET: OrdersManager/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Orders == null)
-            {
-                return NotFound();
-            }
-
-            var order = await _context.Orders.FindAsync(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            return View(order);
-        }
-
-        // POST: OrdersManager/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Phone,City,Street,Email,Weather,Product,Flavors,OrderPrice,OrderDate,IsHoliday")] Order order)
-        {
-            if (id != order.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrderExists(order.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(order);
-        }
-
-        // GET: OrdersManager/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Orders == null)
-            {
-                return NotFound();
-            }
-
-            var order = await _context.Orders
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return View(order);
-        }
-
-        // POST: OrdersManager/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Orders == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Order'  is null.");
-            }
-            var order = await _context.Orders.FindAsync(id);
-            if (order != null)
-            {
-                _context.Orders.Remove(order);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool OrderExists(int id)
-        {
-          return (_context.Orders?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
-        public ActionResult FilterByDate(DateTime? startDate, DateTime? endDate)
-        {
-            if (startDate.HasValue && endDate.HasValue)
-            {
-                var filteredOrders = _context.Orders.Where(o => o.OrderDate >= startDate && o.OrderDate <= endDate).ToList();
-                return View("Index", filteredOrders);
-            }
-            else
-            {
-                var allOrders = _context.Orders.ToList();
-                return View("Index", allOrders);
-            }
-        }
+        
 
 
     }

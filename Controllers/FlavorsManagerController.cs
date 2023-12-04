@@ -63,19 +63,19 @@ namespace IceCreamsShopping.Controllers
             if (ModelState.IsValid)
             {
                 //Call the CheckImage action to check if the image contains ice cream.
-                //var containsIceCream = await CheckImage(flavors.ImageUrl);
-                //if (containsIceCream)
-                //{
+                var containsIceCream = await CheckImage(flavors.ImageUrl);
+                if (containsIceCream)
+                {
                     // If the image contains ice cream, proceed to save the product.
                     _context.Add(flavors);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
-                //}
-                //else
-                //{
-                //    // Handle the case where the image doesn't contain ice cream.
-                //    ModelState.AddModelError("ImageUrl", "The image does not contain ice cream.");
-                //}
+                }
+                else
+                {
+                    // Handle the case where the image doesn't contain ice cream.
+                    ModelState.AddModelError("ImageUrl", "The image does not contain ice cream.");
+                }
             }
             return View(flavors);
 
@@ -176,11 +176,11 @@ namespace IceCreamsShopping.Controllers
           return (_context.Flavors?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
-        //private async Task<bool> CheckImage(string imageUrl)
-        //{
-        //    var _apiServices = new ApiServices("acc_85435d24acba976");
-        //    var answer = await _apiServices.CallServiceApi<bool>($"http://localhost:5103/api/imagga?imageUrl={Uri.EscapeDataString(imageUrl)}");
-        //    return answer;
-        //}
+        private async Task<bool> CheckImage(string imageUrl)
+        {
+            var _apiServices = new ApiServices("acc_85435d24acba976");
+            var answer = await _apiServices.CallServiceApi<bool>($"http://localhost:5103/api/imagga?imageUrl={Uri.EscapeDataString(imageUrl)}");
+            return answer;
+        }
     }
 }
