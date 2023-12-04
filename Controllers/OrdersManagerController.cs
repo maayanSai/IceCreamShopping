@@ -49,8 +49,21 @@ namespace IceCreamsShopping.Controllers
             }
             return View(order);
         }
+        public ActionResult FilterByDate(DateTime? startDate, DateTime? endDate)
+        {
+            if (startDate.HasValue && endDate.HasValue)
+            {
+                var filteredOrders = _context.Orders.Where(o => o.OrderDate >= startDate && o.OrderDate <= endDate).ToList();
+                return View("Index", filteredOrders);
+            }
+            else
+            {
+                var allOrders = _context.Orders.ToList();
+                return View("Index", allOrders);
+            }
+        }
 
-        
+
 
 
     }
