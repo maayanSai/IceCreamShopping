@@ -3,3 +3,9 @@ The manager, in addition, can view the order history in the store, manage and up
 The project includes a Back End based on cloud services and a Front End based on diversity
 applications, primarily standard browsers.
 to their home The system will integrate with cloud services from a variety of sources to complete the required tasks.
+
+
+*********************************************************
+
+link to the GateWay:
+https://github.com/maayanSai/GateWay
